@@ -13,9 +13,8 @@ help:
 
 .PHONY: help Makefile
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
+# $(O) is meant as a shortcut for $(SPHINXOPTS).
+html: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 
@@ -27,7 +26,13 @@ help:
 # Edit *.po files (translate and remove 'fuzzy' markers) then commit *.po files
 
 
-syncpackages:
+syncpackages: clonepackages installpackages
+
+clonepackages:
+	rm -rf guzzle_sphinx_theme
+	git clone --depth 1 --branch master git@xgit.tradingview.com:tv/guzzle_sphinx_theme.git
+
+installpackages:
 	pip install --user -r requirements.txt
 
 install_hooks:
